@@ -1,0 +1,14 @@
+{
+  "name": "puppeteer-lighthouse",
+  "version": "1.0.0",
+  "description": "Based in https://github.com/evanhalley/lighthouse-pizza-teer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "lighthouse": "^6.1.1",
+    "puppeteer": "^5.1"
+  }
+}
