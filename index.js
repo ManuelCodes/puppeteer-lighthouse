@@ -80,8 +80,8 @@ const fs = require('fs');
 (async() => {
 
     const loginURL = 'https://www.coppel.com/LogonForm?catalogId=10001&myAcctMain=1&langId=-5&storeId=12761';
-    const userName = 'YOUR_USER_NAME';
-    const password = 'YOUR_PASSWORD'
+    const userName = process.env.USERNAME;
+    const password = process.env.PASSWORD;
 
     const opts = {
         //chromeFlags: ['--headless'],
@@ -106,7 +106,8 @@ const fs = require('fs');
 
 
 //Puppeteer
-    page = (await browser.pages())[0];
+    //page = (await browser.pages())[0];
+    page = await browser.newPage();
     await page.setViewport({ width: 1200, height: 900});
     await page.goto(loginURL, {waitUntil: 'networkidle2'});
     
@@ -123,6 +124,17 @@ const fs = require('fs');
     console.log(page.url());
 
     await page.goto('https://www.coppel.com/AbonosDetalle?catalogId=10001&langId=-5&storeId=12761&ampabty=mc',{waitUntil: 'networkidle2'});
+    
+    await page.evaluate( () => {
+        document.querySelector('[id="tipo_cantidad_nointeres_1"]').click();
+    });
+
+    await page.evaluate( () => {
+        document.querySelector('[id="btnRevisarAbono"]').click();
+    });
+    
+    await page.close();
+
     console.log('before lighthouse');
 // Run Lighthouse.
     const report = await lighthouse(page.url(), opts, config).then(results => {
